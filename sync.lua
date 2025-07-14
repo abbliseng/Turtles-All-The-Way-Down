@@ -5,7 +5,7 @@ print("Syncing...")
 
 local response = http.get(manifestUrl)
 if not response then
-    print("Failed to get manifest!")
+    print("ERROR: Failed to get manifest")
     return
 end
 
@@ -23,6 +23,7 @@ for line in string.gmatch(content, "[^\r\n]+") do
             fs.makeDir(dir)
         end
         if fs.exists(localPath) then
+            print("File exists, deleting: " .. localPath)
             fs.delete(localPath)
         end
 
