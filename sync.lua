@@ -1,5 +1,4 @@
 local baseUrl = "https://raw.githubusercontent.com/abbliseng/Turtles-All-The-Way-Down/main/"
-
 print("Syncing...")
 
 if fs.exists("files.txt") then
