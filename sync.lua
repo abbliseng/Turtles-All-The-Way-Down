@@ -23,12 +23,12 @@ for line in string.gmatch(content, "[^\r\n]+") do
             fs.makeDir(dir)
         end
         if fs.exists(localPath) then
-            print("File exists, deleting: " .. localPath)
+            -- print("File exists, deleting: " .. localPath)
             fs.delete(localPath)
         end
 
         shell.run("wget " .. fullUrl .. " " .. localPath)
-        print("Downloaded: " .. localPath)
+        -- print("Downloaded: " .. localPath)
     else
         print("Skipped (not found): " .. localPath)
     end
