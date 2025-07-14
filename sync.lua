@@ -1,17 +1,17 @@
 local baseUrl = "https://raw.githubusercontent.com/abbliseng/Turtles-All-The-Way-Down/main/"
-local manifestUrl = baseUrl .. "files.txt"
 
 print("Syncing...")
-print("Syncing...")
 
-local response = http.get(manifestUrl)
-if not response then
-    print("ERROR: Failed to get manifest")
+if fs.exists("files.txt") then
+    fs.delete("files.txt")
+end
+shell.run("wget", baseUrl .. "files.txt", "files.txt")
+
+local content = fs.read("files.txt")
+if not content then
+    print("Failed to read files.txt")
     return
 end
-
-local content = response.readAll()
-response.close()
 
 for line in string.gmatch(content, "[^\r\n]+") do
     local fullUrl = baseUrl .. line
