@@ -25,7 +25,6 @@ for line in string.gmatch(content, "[^\r\n]+") do
         end
         if fs.exists(localPath) then
             print("File exists, deleting: " .. localPath)
-            print("File exists, deleting: " .. localPath)
             fs.delete(localPath)
         end
 
