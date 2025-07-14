@@ -13,31 +13,22 @@ local content = response.readAll()
 response.close()
 
 for line in string.gmatch(content, "[^\r\n]+") do
-  local trimmedLine = string.gsub(line, "^%s*(.-)%s*$", "%1") -- remove leading/trailing spaces
-  if trimmedLine ~= "" then
-    local fullUrl = baseUrl .. trimmedLine
-    local localPath = trimmedLine
+  local fullUrl = baseUrl .. line
+  local localPath = line
 
-    print(fullUrl)
-
-    if http.checkURL(fullUrl) then
-      local dir = fs.getDir(localPath)
-      if dir and not fs.exists(dir) then
-        fs.makeDir(dir)
-      end
-
-      -- PROTECTION: verify all args are strings
-      if type(fullUrl) == "string" and type(localPath) == "string" then
-        shell.run("wget", "-f", fullUrl, localPath)
-        print("Downloaded: " .. localPath)
-      else
-        print("Skipped: bad filename or URL")
-      end
-    else
-      print("Skipped (not found): " .. localPath)
+  -- Check if file exists on GitHub
+  if http.checkURL(fullUrl) then
+    -- Ensure folder exists
+    local dir = fs.getDir(localPath)
+    if dir and not fs.exists(dir) then
+      fs.makeDir(dir)
     end
+
+    shell.run("wget -f " .. fullUrl .. " " .. localPath)
+    print("Downloaded: " .. localPath)
+  else
+    print("Skipped (not found): " .. localPath)
   end
 end
-
 
 print("Sync complete!")
