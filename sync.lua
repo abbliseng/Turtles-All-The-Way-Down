@@ -7,7 +7,9 @@ if fs.exists("files.txt") then
 end
 shell.run("wget", baseUrl .. "files.txt", "files.txt")
 
-local content = fs.read("files.txt")
+local file = fs.open("files.txt", "r")
+local content = file.readAll()
+file.close()
 if not content then
     print("Failed to read files.txt")
     return
