@@ -2,3 +2,4 @@ startup.lua
 sync.lua
 setup.lua
 lib/utils.lua
+woah.txt
