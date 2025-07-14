@@ -1,10 +1,11 @@
+local version = tostring(os.epoch("utc"))
 local baseUrl = "https://raw.githubusercontent.com/abbliseng/Turtles-All-The-Way-Down/main/"
 print("Syncing...")
 
 if fs.exists("files.txt") then
     fs.delete("files.txt")
 end
-shell.run("wget", baseUrl .. "files.txt", "files.txt")
+shell.run("wget", baseUrl .. "files.txt?nocache=" .. version, "files.txt")
 
 local file = fs.open("files.txt", "r")
 local content = file.readAll()
