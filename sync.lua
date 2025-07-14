@@ -2,6 +2,7 @@ local baseUrl = "https://raw.githubusercontent.com/abbliseng/Turtles-All-The-Way
 local manifestUrl = baseUrl .. "files.txt"
 
 print("Syncing...")
+print("Syncing...")
 
 local response = http.get(manifestUrl)
 if not response then
