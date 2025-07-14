@@ -21,7 +21,7 @@ if http.checkURL(manifest) then
         if string.find(localPath, "/") then
             shell.run("mkdir", fs.getDir(localPath))
         end
-        shell.run("wget", fullUrl, localPath)
+        shell.run("wget", "-f", fullUrl, localPath)
         print("Downloaded: " .. line)
     end
 else
