@@ -37,5 +37,6 @@ end
     
 
 print("Syncing...")
+Download("files.txt")
 DownloadAllFiles()
 print("Sync complete!")
