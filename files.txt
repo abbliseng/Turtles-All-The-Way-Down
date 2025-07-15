@@ -1,2 +1,2 @@
-startup.lua
 sync.lua
+startup.lua
