@@ -48,16 +48,13 @@ local function turnOnRedstoneRelays(ids)
 end
 
 -- Read a 24-bit BMP file and return pixel color values as a 2D array
-
 function readBMP(path)
     local f = fs.open(path, "rb")
     if not f then error("File not found: " .. path) end
 
-    -- Read the entire file into a binary string
     local data = f.readAll()
     f.close()
 
-    -- Helper: read unsigned little-endian 4-byte int
     local function u32(offset)
         local b1 = string.byte(data, offset + 1)
         local b2 = string.byte(data, offset + 2)
@@ -66,14 +63,12 @@ function readBMP(path)
         return b1 + b2 * 256 + b3 * 65536 + b4 * 16777216
     end
 
-    -- Helper: read unsigned little-endian 2-byte int
     local function u16(offset)
         local b1 = string.byte(data, offset + 1)
         local b2 = string.byte(data, offset + 2)
         return b1 + b2 * 256
     end
 
-    -- Validate header
     if data:sub(1, 2) ~= "BM" then
         error("Not a BMP file")
     end
@@ -83,23 +78,25 @@ function readBMP(path)
     local height = u32(22)
     local bitsPerPixel = u16(28)
 
-    if bitsPerPixel ~= 24 then
-        error("Only 24-bit BMP supported")
+    if bitsPerPixel ~= 24 and bitsPerPixel ~= 32 then
+        error("Only 24-bit or 32-bit BMP supported (got " .. bitsPerPixel .. "-bit)")
     end
 
+    local bytesPerPixel = bitsPerPixel / 8
     local rowSize = math.floor((bitsPerPixel * width + 31) / 32) * 4
+
     local pixels = {}
 
     for y = 0, height - 1 do
         local row = {}
         for x = 0, width - 1 do
-            local offset = pixelDataOffset + y * rowSize + x * 3
+            local offset = pixelDataOffset + y * rowSize + x * bytesPerPixel
             local b = string.byte(data, offset + 1)
             local g = string.byte(data, offset + 2)
             local r = string.byte(data, offset + 3)
             table.insert(row, { r = r, g = g, b = b })
         end
-        table.insert(pixels, 1, row) -- BMP stores rows bottom to top
+        table.insert(pixels, 1, row) -- flip Y axis since BMP stores bottom to top
     end
 
     return pixels
