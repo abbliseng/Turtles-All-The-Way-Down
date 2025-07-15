@@ -7,8 +7,8 @@ CACHED_VERSIONS = {}
 function Download(fileName)
     local url = baseUrl .. fileName .. "?ref=main"
     local headers = {
-        ["User-Agent"] = "Turtles All The Way Down Sync",
-        ["Accept"] = "application/vnd.github.v3+json"
+        ["Cache-Control"] = "no-cache",
+        ["Accept"] = "application/vnd.github.v3.raw"
     }
     local response = http.get(url, headers)
     if response ==nil or response.getResponseCode() ~= 200 then
