@@ -1,8 +1,4 @@
-local version = tostring(os.epoch("utc"))
 local baseUrl = "https://api.github.com/repos/abbliseng/Turtles-All-The-Way-Down/contents/"
-CACHE_FOLDER = ".cache"
-CACHE_FILE = CACHE_FOLDER .. "/.versions"
-CACHED_VERSIONS = {}
 
 function Download(fileName)
     local url = baseUrl .. fileName .. "?ref=main"
@@ -15,7 +11,6 @@ function Download(fileName)
         print("Unable to open url: " .. fileName)
         return
     end
-    print("Downloading updated version of " .. fileName)
     fileCode = response.readAll()
     local savefile = fs.open(fileName, "w")
     savefile.write(fileCode)
@@ -23,7 +18,24 @@ function Download(fileName)
     savefile.close()
 end
 
-print("Syncing...")
-Download("files.txt")
+function DownloadAllFiles()
+    local fileList = fs.open("files.txt", "r")
+    if not fileList then
+        print("File list not found!")
+        return
+    end
 
+    for fileName in fileList.readLine do
+        if fileName ~= "" and not string.match(fileName, "^%s*---") then
+            print("Downloading: " .. fileName)
+            Download(fileName)
+        end
+    end
+
+    fileList.close()
+end
+    
+
+print("Syncing...")
+DownloadAllFiles()
 print("Sync complete!")
