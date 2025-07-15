@@ -1,4 +1,2 @@
 startup.lua
 sync.lua
-pls sync
-pls super sync
