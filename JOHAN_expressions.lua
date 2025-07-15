@@ -1,13 +1,19 @@
 -- print out all redstone relay peripherals
 local peripherals = peripheral.getNames()
 local count = 0
+local lowest_id = 0
 for _, name in ipairs(peripherals) do
     if peripheral.getType(name) == "redstone_relay" then
         count = count + 1
+        local id = tonumber(string.match(name, "%d+"))
+        if id and (lowest_id == 0 or id < lowest_id) then
+            lowest_id = id
+        end
     end
 end
 
 print("Total redstone relays: " .. count)
+print("Lowest ID: " .. lowest_id)
 
 local function setAllRedstoneRelays(state)
     for _, name in ipairs(peripherals) do
@@ -31,7 +37,7 @@ end
 local function turnOnRedstoneRelays(ids)
     -- takes in a list och ids and turns on the relays with those ids at the end of their names
     for _, id in ipairs(ids) do
-        relayName = "redstone_relay_" .. id
+        relayName = "redstone_relay_" .. (id + lowest_id)
         if peripheral.isPresent(relayName) then
             relay = peripheral.wrap(relayName)
             relay.setOutput("front", true)
