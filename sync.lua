@@ -18,8 +18,8 @@ function Download(fileName)
     savefile.close()
 end
 
-function DownloadAllFiles()
-    local fileList = fs.open("files.txt", "r")
+function DownloadAllFiles(fileListName)
+    local fileList = fs.open(fileListName, "r")
     if not fileList then
         print("File list not found!")
         return
@@ -38,5 +38,8 @@ end
 
 print("Syncing...")
 Download("files.txt")
-DownloadAllFiles()
+DownloadAllFiles("files.txt")
+if fs.exists("local_files.txt") then
+    DownloadAllFiles("local_files.txt")
+end
 print("Sync complete!")
