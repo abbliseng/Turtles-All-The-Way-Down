@@ -10,3 +10,4 @@ end
 
 -- print out the total number of redstone relays
 print("Total redstone relays: " .. count)
+print("Total redstone relays: " .. count)
