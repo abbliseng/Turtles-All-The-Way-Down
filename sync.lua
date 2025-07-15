@@ -1,40 +1,26 @@
 local version = tostring(os.epoch("utc"))
 local baseUrl = "https://raw.githubusercontent.com/abbliseng/Turtles-All-The-Way-Down/main/"
-print("Syncing...")
+CACHE_FOLDER = ".cache"
+CACHE_FILE = CACHE_FOLDER .. "/.versions"
+CACHED_VERSIONS = {}
 
-if fs.exists("files.txt") then
-    fs.delete("files.txt")
-end
-shell.run("wget", baseUrl .. "files.txt?nocache=" .. version, "files.txt")
-
-local file = fs.open("files.txt", "r")
-local content = file.readAll()
-file.close()
-if not content then
-    print("Failed to read files.txt")
-    return
-end
-
-for line in string.gmatch(content, "[^\r\n]+") do
-    local fullUrl = baseUrl .. line
-    local localPath = line
-
-    -- Check if file exists on GitHub
-    if http.checkURL(fullUrl) then
-        local dir = fs.getDir(localPath)
-        if dir and not fs.exists(dir) then
-            fs.makeDir(dir)
-        end
-        if fs.exists(localPath) then
-            print("File exists, deleting: " .. localPath)
-            fs.delete(localPath)
-        end
-
-        shell.run("wget " .. fullUrl .. " " .. localPath)
-        -- print("Downloaded: " .. localPath)
-    else
-        print("Skipped (not found): " .. localPath)
+function Download(fileName)
+    local url = baseUrl .. fileName
+    local response = http.get(url)
+    -- TODO: Chache
+    if response ==nil or response.getResponseCode() ~= 200 then
+        print("Unable to open url: " .. fileName)
+        return
     end
+    print("Downloading updated version of " .. fileName)
+    fileCode = response.readAll()
+    local savefile = fs.open(fileName, "w")
+    savefile.write(fileCode)
+    savefile.flush()
+    savefile.close()
 end
+
+print("Syncing...")
+Download("files.txt")
 
 print("Sync complete!")
