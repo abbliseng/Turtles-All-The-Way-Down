@@ -12,19 +12,36 @@ print("Total redstone relays: " .. count)
 local function setAllRedstoneRelays(state)
     for _, name in ipairs(peripherals) do
         if peripheral.getType(name) == "redstone_relay" then
-            peripheral.call(name, "setOutput", state)
+            relay = peripheral.wrap(name)
+            relay.setOutput("front", state)
         end
     end
 end
 
 local function toggleRedstoneRelays()
-    local currentState = peripheral.call(peripherals[1], "getOutput")
-    local newState = not currentState
-    setAllRedstoneRelays(newState)
-    print("Toggled all redstone relays to: " .. tostring(newState))
+    for _, name in ipairs(peripherals) do
+        if peripheral.getType(name) == "redstone_relay" then
+            relay = peripheral.wrap(name)
+            local currentState = relay.getOutput("front")
+            relay.setOutput("front", not currentState)
+        end
+    end
+end
+
+local function turnOnRedstoneRelays(ids)
+    -- takes in a list och ids and turns on the relays with those ids at the end of their names
+    for _, id in ipairs(ids) do
+        relayName = "redstone_relay_" .. id
+        if peripheral.isPresent(relayName) then
+            relay = peripheral.wrap(relayName)
+            relay.setOutput("front", true)
+        else
+            print("Relay " .. relayName .. " not found.")
+        end
+    end
 end
 
 setAllRedstoneRelays(false)  -- Turn off all relays initially
 print("All redstone relays turned off.")
-toggleRedstoneRelays()  -- Toggle the state of all relays
-print("All redstone relays toggled.")
+happy_face = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+turnOnRedstoneRelays(happy_face)  -- Turn on all relays with ids 0-9
