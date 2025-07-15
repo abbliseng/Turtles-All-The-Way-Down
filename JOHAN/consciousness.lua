@@ -102,6 +102,60 @@ function readBMP(path)
     return pixels
 end
 
+function readBMPFiltered(path)
+    local f = fs.open(path, "rb")
+    if not f then error("File not found: " .. path) end
+    local data = f.readAll()
+    f.close()
+
+    local function u32(o)
+        local b1 = string.byte(data, o + 1)
+        local b2 = string.byte(data, o + 2)
+        local b3 = string.byte(data, o + 3)
+        local b4 = string.byte(data, o + 4)
+        return b1 + b2 * 256 + b3 * 65536 + b4 * 16777216
+    end
+
+    local function u16(o)
+        local b1 = string.byte(data, o + 1)
+        local b2 = string.byte(data, o + 2)
+        return b1 + b2 * 256
+    end
+
+    if data:sub(1, 2) ~= "BM" then error("Not a BMP file") end
+
+    local offset = u32(10)
+    local width = u32(18)
+    local height = u32(22)
+    local bpp = u16(28)
+
+    if bpp ~= 24 and bpp ~= 32 then error("Only 24-bit or 32-bit BMP supported") end
+
+    local bppBytes = bpp / 8
+    local rowSize = math.floor((bpp * width + 31) / 32) * 4
+
+    local pixels = {}
+
+    for y = 0, height - 1 do
+        for x = 0, width - 1 do
+            local pxOffset = offset + y * rowSize + x * bppBytes
+            local b = string.byte(data, pxOffset + 1)
+            local g = string.byte(data, pxOffset + 2)
+            local r = string.byte(data, pxOffset + 3)
+
+            if r ~= 0 or g ~= 0 or b ~= 0 then
+                -- Flip Y (top to bottom), flip X (left to right)
+                local px = width - 1 - x
+                local py = y
+                local index = py * width + px
+                pixels[index] = { r = r, g = g, b = b }
+            end
+        end
+    end
+
+    return pixels
+end
+
 setAllRedstoneRelays(false) -- Turn off all relays initially
 print("All redstone relays turned off.")
 neutral = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
@@ -117,12 +171,12 @@ else
     print("Failed to open BMP file.")
 end
 
-local pixels = readBMP("JOHAN/faces/neutral.bmp")
-print("Width: " .. #pixels[1] .. ", Height: " .. #pixels)
-for y = 1, #pixels do
-    for x = 1, #pixels[y] do
-        local pixel = pixels[y][x]
-        -- Print pixel color values (r, g, b)
-        print(string.format("Pixel at (%d, %d): R=%d, G=%d, B=%d", x, y, pixel.r, pixel.g, pixel.b))
+-- local pixels = readBMP("JOHAN/faces/neutral.bmp")
+local filteredPixels = readBMPFiltered("JOHAN/faces/neutral.bmp")
+print("Filtered Pixels:")
+for i = 0, 143 do
+    local p = filteredPixels[i]
+    if p then
+        print(i, string.format("R=%d G=%d B=%d", p.r, p.g, p.b))
     end
 end
