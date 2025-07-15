@@ -51,3 +51,13 @@ setAllRedstoneRelays(false)  -- Turn off all relays initially
 print("All redstone relays turned off.")
 happy_face = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 turnOnRedstoneRelays(happy_face)  -- Turn on all relays with ids 0-9
+
+-- read and print the bmp file
+file = fs.open("./faces/happy_face.bmp", "r")
+if file then
+    local bmpData = file.readAll()
+    file.close()
+    print("BMP Data: " .. bmpData)
+else
+    print("Failed to open BMP file.")
+end
