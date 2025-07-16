@@ -168,11 +168,6 @@ function readBMPFiltered(path)
 end
 
 setAllRedstoneRelays(false) -- Turn off all relays initially
-print("All redstone relays turned off.")
-neutral = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
--- turnOnRedstoneRelays(neutral) -- Turn on all relays with ids 0-9
-
--- read and print the bmp file
 file = fs.open("JOHAN/faces/neutral.bmp", "rb")
 if file then
     local bmpData = file.readAll()
@@ -182,8 +177,6 @@ else
     print("Failed to open BMP file.")
 end
 
--- local pixels = readBMP("JOHAN/faces/neutral.bmp")
--- 
 local filteredPixels = readBMPFiltered("JOHAN/faces/neutral.bmp")
 print("Filtered Pixels:")
 for key, pixel in pairs(filteredPixels) do
