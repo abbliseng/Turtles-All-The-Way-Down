@@ -185,3 +185,5 @@ function displayFace(face)
         turnOnRedstoneRelay(key)
     end
 end
+
+displayFace("love")
