@@ -172,13 +172,11 @@ file = fs.open("JOHAN/faces/neutral.bmp", "rb")
 if file then
     local bmpData = file.readAll()
     file.close()
-    print("BMP Data: " .. bmpData)
 else
     print("Failed to open BMP file.")
 end
 
 local filteredPixels = readBMPFiltered("JOHAN/faces/neutral.bmp")
-print("Filtered Pixels:")
 for key, pixel in pairs(filteredPixels) do
     -- print(string.format("Pixel %d: R=%d, G=%d, B=%d", key, pixel.r, pixel.g, pixel.b))
     -- turn on the corresponding redstone relay
