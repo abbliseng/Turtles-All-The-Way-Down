@@ -167,18 +167,21 @@ function readBMPFiltered(path)
     return pixels
 end
 
-setAllRedstoneRelays(false) -- Turn off all relays initially
-file = fs.open("JOHAN/faces/neutral.bmp", "rb")
-if file then
-    local bmpData = file.readAll()
-    file.close()
-else
-    print("Failed to open BMP file.")
-end
 
-local filteredPixels = readBMPFiltered("JOHAN/faces/neutral.bmp")
-for key, pixel in pairs(filteredPixels) do
-    -- print(string.format("Pixel %d: R=%d, G=%d, B=%d", key, pixel.r, pixel.g, pixel.b))
-    -- turn on the corresponding redstone relay
-    turnOnRedstoneRelay(key)
+function displayFace(face)
+    setAllRedstoneRelays(false) -- Turn off all relays initially
+    file = fs.open("JOHAN/faces/" .. face .. ".bmp", "rb")
+    if file then
+        local bmpData = file.readAll()
+        file.close()
+    else
+        print("Failed to open BMP file.")
+    end
+
+    local filteredPixels = readBMPFiltered("JOHAN/faces/" .. face .. ".bmp")
+    for key, pixel in pairs(filteredPixels) do
+        -- print(string.format("Pixel %d: R=%d, G=%d, B=%d", key, pixel.r, pixel.g, pixel.b))
+        -- turn on the corresponding redstone relay
+        turnOnRedstoneRelay(key)
+    end
 end
