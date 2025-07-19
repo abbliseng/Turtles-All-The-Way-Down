@@ -96,14 +96,19 @@ end
 
 -- Main loop
 drawUI()
-while true do
-    local e, side, x, y = os.pullEvent("monitor_touch")
-    handleTouch(x, y)
+-- while true do
+--     local e, side, x, y = os.pullEvent("monitor_touch")
+--     handleTouch(x, y)
 
-    -- Simulate progress when running
-    if status == "Running" then
-        progress = math.min(progress + 0.05, 1)
-        drawUI()
-        sleep(0.2)
-    end
+--     -- Simulate progress when running
+--     if status == "Running" then
+--         progress = math.min(progress + 0.05, 1)
+--         drawUI()
+--         sleep(0.2)
+--     end
+-- end
+
+while true do
+    local event, side, x, y = os.pullEvent("monitor_touch")
+    print("The monitor on side " .. side .. " was touched at (" .. x .. ", " .. y .. ")")
 end
