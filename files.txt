@@ -1,3 +1,0 @@
-startup.lua
-sync.lua
-create_reader.lua

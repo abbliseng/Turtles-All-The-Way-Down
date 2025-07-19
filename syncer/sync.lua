@@ -3,9 +3,9 @@ local baseUrl = "https://api.github.com/repos/abbliseng/Turtles-All-The-Way-Down
 function Download(fileName)
     local url = baseUrl .. fileName .. "?ref=main"
     local headers = {}
-    if fs.exists("secrets.txt") then
+    if fs.exists("syncer/secrets.txt") then
         print("Using auth...")
-        local secrets = fs.open("secrets.txt", "r")
+        local secrets = fs.open("syncer/secrets.txt", "r")
         local secretToken = secrets.readLine()
         secrets.close()
 
@@ -50,9 +50,9 @@ function DownloadAllFiles(fileListName)
 end
 
 print("Syncing...")
-Download("files.txt")
-DownloadAllFiles("files.txt")
-if fs.exists("local_files.txt") then
-    DownloadAllFiles("local_files.txt")
+Download("syncer/files.txt")
+DownloadAllFiles("syncer/files.txt")
+if fs.exists("syncer/local_files.txt") then
+    DownloadAllFiles("syncer/local_files.txt")
 end
 print("Sync complete!")
