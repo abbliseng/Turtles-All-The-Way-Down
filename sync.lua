@@ -2,12 +2,25 @@ local baseUrl = "https://api.github.com/repos/abbliseng/Turtles-All-The-Way-Down
 
 function Download(fileName)
     local url = baseUrl .. fileName .. "?ref=main"
-    local headers = {
-        ["Cache-Control"] = "no-cache",
-        ["Accept"] = "application/vnd.github.v3.raw"
-    }
+    local headers = {}
+    if fs.exists("secrets.txt") then
+        local secrets = fs.open("secrets.txt", "r")
+        local secretToken = secrets.readLine()
+        secrets.close()
+
+        headers = {
+            ["Cache-Control"] = "no-cache",
+            ["Accept"] = "application/vnd.github.v3.raw",
+            ["Authorization"] = "Bearer " .. secretToken
+        }
+    else
+        headers = {
+            ["Cache-Control"] = "no-cache",
+            ["Accept"] = "application/vnd.github.v3.raw",
+        }
+    end
     local response = http.get(url, headers)
-    if response ==nil or response.getResponseCode() ~= 200 then
+    if response == nil or response.getResponseCode() ~= 200 then
         print("Unable to open url: " .. fileName)
         return
     end
@@ -34,7 +47,6 @@ function DownloadAllFiles(fileListName)
 
     fileList.close()
 end
-    
 
 print("Syncing...")
 Download("files.txt")
