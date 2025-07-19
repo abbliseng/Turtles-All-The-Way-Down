@@ -3,6 +3,10 @@ monitor.setCursorPos(1, 1)
 monitor.setTextScale(1)
 -- monitor.write("JOHAN Monitor Initialized")
 
+local size = monitor.getSize()
+local progress = 0
+local status = "Idle"
+local statusColor = colors.gray
 
 local colors = {
     red = colors.red,
@@ -20,10 +24,6 @@ local buttons = {
     { label = "Reset", x = 26, y = 2, w = 10, h = 3, action = function() progress = 0 end }
 }
 
-local size = monitor.getSize()
-local progress = 0
-local status = "Idle"
-local statusColor = colors.gray
 
 
 -- Helper: draw box with text
@@ -76,6 +76,7 @@ local function drawUI()
     else
         statusColor = colors.gray
     end
+    print("Status color: " .. statusColor)
     drawStatusIcon(20, 7, statusColor)
 
     -- Progress bar
@@ -109,9 +110,9 @@ while true do
     new_time = os.clock()
     
     -- Simulate progress when running
-    if status == "Running" and new_time - time >= 1.0 then
-        progress = math.min(progress + 0.05, 1)
-        drawUI()
-        time = new_time
-    end
+    -- if status == "Running" and new_time - time >= 1.0 then
+    --     progress = math.min(progress + 0.05, 1)
+    --     drawUI()
+    --     time = new_time
+    -- end
 end
