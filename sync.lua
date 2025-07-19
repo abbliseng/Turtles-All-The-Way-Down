@@ -4,6 +4,7 @@ function Download(fileName)
     local url = baseUrl .. fileName .. "?ref=main"
     local headers = {}
     if fs.exists("secrets.txt") then
+        print("Using auth...")
         local secrets = fs.open("secrets.txt", "r")
         local secretToken = secrets.readLine()
         secrets.close()
