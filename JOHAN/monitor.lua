@@ -109,7 +109,7 @@ while true do
     new_time = os.clock()
     
     -- Simulate progress when running
-    if status == "Running" and new_time - time >= 0.2 then
+    if status == "Running" and new_time - time >= 1.0 then
         progress = math.min(progress + 0.05, 1)
         drawUI()
         time = new_time
