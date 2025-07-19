@@ -80,7 +80,7 @@ local function drawUI()
     drawStatusIcon(20, 7, statusColor)
 
     -- Progress bar
-    drawProgressBar(2, 9, 30, progress)
+    drawProgressBar(2, 9, 60, progress)
 end
 
 
@@ -110,9 +110,10 @@ while true do
     new_time = os.clock()
     
     -- Simulate progress when running
-    -- if status == "Running" and new_time - time >= 1.0 then
-    --     progress = math.min(progress + 0.05, 1)
-    --     drawUI()
-    --     time = new_time
-    -- end
+    if status == "Running" and new_time - time >= 1.0 then
+        print("Updating progress...")
+        progress = math.min(progress + 0.05, 1)
+        drawUI()
+        time = new_time
+    end
 end
