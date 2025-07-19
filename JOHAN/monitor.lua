@@ -104,13 +104,13 @@ while true do
     local x, y = 0, 0
     local e, side, x, y = os.pullEvent("monitor_touch")
     handleTouch(x, y)
-
+    
     new_time = os.clock()
-
+    
     -- Simulate progress when running
     if status == "Running" and new_time - time >= 0.2 then
         progress = math.min(progress + 0.05, 1)
-        drawUI()
         time = new_time
     end
+    drawUI()
 end
