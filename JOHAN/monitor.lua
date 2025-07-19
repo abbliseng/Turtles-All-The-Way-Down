@@ -116,5 +116,6 @@ while true do
             progress = math.min(progress + 0.05, 1)
             drawUI()
         end
+        timer = os.startTimer(0.1)
     end
 end
