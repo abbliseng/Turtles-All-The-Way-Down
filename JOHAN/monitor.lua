@@ -87,6 +87,7 @@ end
 local function handleTouch(x, y)
     for _, b in pairs(buttons) do
         if x >= b.x and x < b.x + b.w and y >= b.y and y < b.y + b.h then
+            print("Button pressed: " .. b.label)
             b.action()
             drawUI()
             return
@@ -110,7 +111,7 @@ while true do
     -- Simulate progress when running
     if status == "Running" and new_time - time >= 0.2 then
         progress = math.min(progress + 0.05, 1)
+        drawUI()
         time = new_time
     end
-    drawUI()
 end
