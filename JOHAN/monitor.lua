@@ -108,6 +108,7 @@ while true do
     handleTouch(x, y)
     
     new_time = os.clock()
+    print(new_time - time)
     
     -- Simulate progress when running
     if status == "Running" and new_time - time >= 1.0 then
