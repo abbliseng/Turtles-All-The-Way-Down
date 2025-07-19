@@ -96,7 +96,7 @@ end
 
 -- Main loop
 print("JOHAN Monitor started...")
-print("Screen Size: " .. size)
+print(size)
 drawUI()
 local new_time = os.clock()
 local time = os.clock()
