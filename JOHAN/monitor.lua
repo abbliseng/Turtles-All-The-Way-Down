@@ -111,10 +111,10 @@ while true do
     print(new_time - time)
     
     -- Simulate progress when running
-    if status == "Running" and new_time - time >= 1.0 then
-        print("Updating progress...")
-        progress = math.min(progress + 0.05, 1)
-        drawUI()
-        time = new_time
-    end
+    -- if (status == "Running") and ((new_time - time) >= 1.0) then
+    --     print("Updating progress...")
+    --     progress = math.min(progress + 0.05, 1)
+    --     drawUI()
+    --     time = new_time
+    -- end
 end
