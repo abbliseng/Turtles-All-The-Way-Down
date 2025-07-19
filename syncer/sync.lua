@@ -4,7 +4,6 @@ function Download(fileName)
     local url = baseUrl .. fileName .. "?ref=main"
     local headers = {}
     if fs.exists("syncer/secrets.txt") then
-        print("Using auth...")
         local secrets = fs.open("syncer/secrets.txt", "r")
         local secretToken = secrets.readLine()
         secrets.close()
@@ -41,7 +40,6 @@ function DownloadAllFiles(fileListName)
 
     for fileName in fileList.readLine do
         if fileName ~= "" and not string.match(fileName, "^%s*---") then
-            print("Downloading: " .. fileName)
             Download(fileName)
         end
     end
@@ -49,7 +47,6 @@ function DownloadAllFiles(fileListName)
     fileList.close()
 end
 
-print("Syncing...")
 Download("syncer/files.txt")
 DownloadAllFiles("syncer/files.txt")
 if fs.exists("syncer/local_files.txt") then
