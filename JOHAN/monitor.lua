@@ -108,6 +108,7 @@ while true do
         local side, x, y = p1, p2, p3
         handleTouch(x, y)
     elseif event == "timer" and p1 == timer then
+        print("Timer with ID " .. p1 .. " was fired")
     
     -- Simulate progress when running
         if (status == "Running") then
