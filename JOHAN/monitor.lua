@@ -95,20 +95,22 @@ local function handleTouch(x, y)
 end
 
 -- Main loop
+print("JOHAN Monitor started...")
+print("Screen Size: " .. size.w .. ", " .. size.h)
 drawUI()
--- while true do
---     local e, side, x, y = os.pullEvent("monitor_touch")
---     handleTouch(x, y)
-
---     -- Simulate progress when running
---     if status == "Running" then
---         progress = math.min(progress + 0.05, 1)
---         drawUI()
---         sleep(0.2)
---     end
--- end
-
+local new_time = os.clock()
+local time = os.clock()
 while true do
-    local event, side, x, y = os.pullEvent("monitor_touch")
-    print("The monitor on side " .. side .. " was touched at (" .. x .. ", " .. y .. ")")
+    local x, y = 0, 0
+    local e, side, x, y = os.pullEvent("monitor_touch")
+    handleTouch(x, y)
+
+    new_time = os.clock()
+
+    -- Simulate progress when running
+    if status == "Running" and new_time - time >= 0.2 then
+        progress = math.min(progress + 0.05, 1)
+        drawUI()
+        time = new_time
+    end
 end
