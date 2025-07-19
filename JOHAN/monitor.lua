@@ -100,21 +100,20 @@ end
 print("JOHAN Monitor started...")
 print(size)
 drawUI()
-local new_time = os.clock()
-local time = os.clock()
+local timer = os.startTimer(0.1)
+
 while true do
-    local x, y = 0, 0
-    local e, side, x, y = os.pullEvent("monitor_touch")
-    handleTouch(x, y)
-    
-    new_time = os.clock()
-    print(new_time - time)
+    local event, p1, p2, p3 = os.pullEvent()
+    if event == "monitor_touch" then
+        local side, x, y = p1, p2, p3
+        handleTouch(x, y)
+    elseif event == "timer" and p1 == timer then
     
     -- Simulate progress when running
-    -- if (status == "Running") and ((new_time - time) >= 1.0) then
-    --     print("Updating progress...")
-    --     progress = math.min(progress + 0.05, 1)
-    --     drawUI()
-    --     time = new_time
-    -- end
+        if (status == "Running") then
+            print("Updating progress...")
+            progress = math.min(progress + 0.05, 1)
+            drawUI()
+        end
+    end
 end
