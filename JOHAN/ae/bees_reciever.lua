@@ -15,6 +15,7 @@ end
 while true do
     local event, sender, message, protocol = os.pullEvent("rednet_message")
     if sender == 6 then
+        print(message)
         receiveAvailableItems(message)
     end
 end
