@@ -6,6 +6,7 @@ item_file = fs.open("JOHAN/ae/data/bees_available_items.txt", "r")
 
 while true do
     local line = item_file.readLine()
+    line = textutils.unserialize(line)
     if not line then break end
     table.insert(available_items, line)
 end

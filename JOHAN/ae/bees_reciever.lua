@@ -15,6 +15,6 @@ end
 while true do
     local event, sender, message, protocol = os.pullEvent("rednet_message")
     if sender == 6 then
-        receiveAvailableItems(textutils.unserialise(message))
+        receiveAvailableItems(message)
     end
 end
