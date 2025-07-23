@@ -14,8 +14,7 @@ function requestItems()
 
     threshold = 5000
     items_to_request = {}
-
-
+    print("Checking items at " .. os.date())
     for key, item in ipairs(available_items) do
         local data = ae_reader.getItem(item)
         if (item.displayName == "[Steel Nugget]") then
@@ -35,7 +34,9 @@ function requestItems()
 end
 
 while true do
-    os.pullEvent("timer")
-    requestItems()
-    request_timer = os.startTimer(30)
+    local event, param = os.pullEvent()
+    if event == "timer" and param == request_timer then
+        requestItems()
+        request_timer = os.startTimer(30)
+    end
 end
