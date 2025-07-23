@@ -10,7 +10,7 @@ end
 local function sendAvailableItemsToComputer(reciever_id, ae_reader)
     local available_items = getAvailableItems(ae_reader)
     print("Sent available items at " .. os.date())
-    rednet.send(reciever_id, available_items)
+    rednet.send(reciever_id, textutils.serialise(available_items))
 end
 
 -- print("Available items:")
