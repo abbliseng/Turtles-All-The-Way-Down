@@ -2,7 +2,15 @@ local get_available_items_timer = os.startTimer(5)
 ae_reader = peripheral.wrap("me_bridge_2")
 
 items = ae_reader.getItems()
-print("Items: " .. #items)
+available_items = {}
+for _, item in ipairs(items) do
+    available_items[item.id] = item.displayName
+end
+
+print("Available items:")
+for id, name in pairs(available_items) do
+    print(" - " .. name .. " (ID: " .. id .. ")")
+end
 
 -- rednet.open("top")
 -- local id, message = rednet.receive()
