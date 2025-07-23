@@ -3,8 +3,9 @@ rednet.open("back")
 local function receiveAvailableItems(items)
     print("Synced at " .. os.date())
     local file = fs.open("JOHAN/ae/data/bees_available_items.txt", "w")
-    print()
-    file.write(items)
+    for item in items do
+        file.write(item .. "\n")
+    end
     file.close()
 end
 
