@@ -26,6 +26,7 @@ function requestItems()
             table.insert(items_to_request, item)
         elseif data.count < threshold then
             print("Missing " .. (threshold - data.count) .. " " .. data.displayName)
+            table.insert(items_to_request, item)
         end
         ::continue::
     end
