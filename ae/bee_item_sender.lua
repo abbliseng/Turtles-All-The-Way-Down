@@ -24,7 +24,7 @@ end
 rednet.open("top")
 
 local get_available_items_timer = os.startTimer(30)
-local ae_reader = peripheral.wrap("me_bridge_2")
+local ae_reader = peripheral.wrap("me_bridge_3")
 
 while true do
     local event, param = os.pullEvent()
