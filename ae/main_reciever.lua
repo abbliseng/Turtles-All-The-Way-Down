@@ -8,9 +8,10 @@ local function receiveAvailableItems()
 end
 
 while true do
-    local event, param = os.pullEvent()
-    if event == "rednet_message" then
-        local senderId, message = param[1], param[2]
-        print("Received message from ID " .. senderId .. ": " .. message)
+    local event, sender, message, protocol = os.pullEvent("rednet_message")
+    if protocol ~= nil then
+        print("Received message from " .. sender .. " with protocol " .. protocol .. " and message " .. tostring(message))
+    else
+        print("Received message from " .. sender .. " with message " .. tostring(message))
     end
 end
