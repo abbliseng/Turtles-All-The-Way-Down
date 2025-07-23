@@ -9,8 +9,16 @@ available_items = textutils.unserialize(line)
 
 item_file.close()
 
+threshold = 5000
+
 for key, item in ipairs(available_items) do
     local data = ae_reader.getItem(item)
+    if (item.displayName == "[Steel Nugget]") then
+        goto continue
+    end
     print(" - " .. item.displayName)
-    print(data)
+    if item.count < threshold then
+        print("Missing " .. (threshold - item.count) .. " " .. item.displayName)
+    end
+    ::continue::
 end
