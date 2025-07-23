@@ -9,7 +9,7 @@ end
 
 while true do
     local event, sender, message, protocol = os.pullEvent("rednet_message")
-    if sender == 4 then
+    if sender == 6 then
         receiveAvailableItems()
     end
 end
