@@ -16,8 +16,9 @@ for key, item in ipairs(available_items) do
     if (item.displayName == "[Steel Nugget]") then
         goto continue
     end
-    print(" - " .. data.displayName)
-    if data.count < threshold then
+    if (data == nil) then
+        print("Missing item: " .. item.displayName)
+    elseif data.count < threshold then
         print("Missing " .. (threshold - data.count) .. " " .. data.displayName)
     end
     ::continue::
