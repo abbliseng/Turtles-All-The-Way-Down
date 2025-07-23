@@ -7,5 +7,8 @@ while true do
     if sender == 4 then
         message = textutils.unserialize(message)
         print(message)
+        for key, item in pairs(message) do
+            print(item.displayName)
+        end
     end
 end
