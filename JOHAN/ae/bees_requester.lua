@@ -11,6 +11,6 @@ item_file.close()
 
 for key, item in ipairs(available_items) do
     local data = ae_reader.getItem(item)
-    print(" - " .. item)
+    print(" - " .. item.displayName)
     print(data)
 end
