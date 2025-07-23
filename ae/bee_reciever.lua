@@ -3,8 +3,8 @@ ae_reader = peripheral.wrap("me_bridge_2")
 
 items = ae_reader.getItems()
 available_items = {}
-for _, item in ipairs(items) do
-    available_items[item.id] = item.displayName
+for id, item in ipairs(items) do
+    available_items[id] = item.displayName
 end
 
 print("Available items:")
