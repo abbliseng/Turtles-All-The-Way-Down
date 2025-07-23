@@ -2,7 +2,7 @@ local function getAvailableItems(ae_reader)
     local items = ae_reader.getItems()
     local available_items = {}
     for id, item in ipairs(items) do
-        available_items[id] = item.displayName
+        available_items[id] = item
     end
     return available_items
 end
