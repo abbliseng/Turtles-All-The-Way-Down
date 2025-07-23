@@ -4,12 +4,8 @@ ae_reader = peripheral.wrap("me_bridge_1")
 available_items = {}
 item_file = fs.open("JOHAN/ae/data/bees_available_items.txt", "r")
 
-while true do
-    local line = item_file.readLine()
-    line = textutils.unserialize(line)
-    if not line then break end
-    table.insert(available_items, line)
-end
+local line = item_file.readAll()
+available_items = textutils.unserialize(line)
 
 item_file.close()
 
