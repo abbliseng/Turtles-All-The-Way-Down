@@ -12,3 +12,10 @@ if fs.exists("JOHAN/monitor.lua") then
 else
     print("JOHAN/monitor.lua not found, skipping...")
 end
+
+
+if fs.exists("JOHAN/ae/bees_reciever.lua") then
+    multishell.launch({shell = shell}, "JOHAN/ae/bees_reciever.lua")
+else
+    print("JOHAN/ae/bees_reciever.lua not found, skipping...")
+end
