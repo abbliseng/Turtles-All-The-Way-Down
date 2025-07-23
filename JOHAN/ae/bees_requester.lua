@@ -12,7 +12,7 @@ function requestItems()
 
     item_file.close()
 
-    threshold = 5000
+    threshold = 2048
     items_to_request = {}
     print("Checking items at " .. os.date())
     for key, item in ipairs(available_items) do
