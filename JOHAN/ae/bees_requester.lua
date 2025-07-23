@@ -1,25 +1,40 @@
 rednet.open("back")
 ae_reader = peripheral.wrap("me_bridge_1")
+request_timer = os.startTimer(30)
 
-available_items = {}
-item_file = fs.open("JOHAN/ae/data/bees_available_items.txt", "r")
+function requestItems()
 
-local line = item_file.readAll()
-available_items = textutils.unserialize(line)
+    available_items = {}
+    item_file = fs.open("JOHAN/ae/data/bees_available_items.txt", "r")
 
-item_file.close()
+    local line = item_file.readAll()
+    available_items = textutils.unserialize(line)
 
-threshold = 5000
+    item_file.close()
 
-for key, item in ipairs(available_items) do
-    local data = ae_reader.getItem(item)
-    if (item.displayName == "[Steel Nugget]") then
-        goto continue
+    threshold = 5000
+    items_to_request = {}
+
+
+    for key, item in ipairs(available_items) do
+        local data = ae_reader.getItem(item)
+        if (item.displayName == "[Steel Nugget]") then
+            goto continue
+        end
+        if (data == nil) then
+            print("Missing item: " .. item.displayName)
+            table.insert(items_to_request, item)
+        elseif data.count < threshold then
+            print("Missing " .. (threshold - data.count) .. " " .. data.displayName)
+        end
+        ::continue::
     end
-    if (data == nil) then
-        print("Missing item: " .. item.displayName)
-    elseif data.count < threshold then
-        print("Missing " .. (threshold - data.count) .. " " .. data.displayName)
-    end
-    ::continue::
+
+    rednet.send(6, textutils.serialise(items_to_request))
+end
+
+while true do
+    os.pullEvent("timer")
+    requestItems()
+    request_timer = os.startTimer(30)
 end

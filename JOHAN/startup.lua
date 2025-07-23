@@ -19,3 +19,9 @@ if fs.exists("JOHAN/ae/bees_reciever.lua") then
 else
     print("JOHAN/ae/bees_reciever.lua not found, skipping...")
 end
+
+if fs.exists("JOHAN/ae/bees_requester.lua") then
+    multishell.launch({shell = shell}, "JOHAN/ae/bees_requester.lua")
+else
+    print("JOHAN/ae/bees_requester.lua not found, skipping...")
+end
